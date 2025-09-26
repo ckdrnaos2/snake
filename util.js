@@ -1,4 +1,4 @@
-// utils.js
+// https://ckdrnaos2.github.io/snake/util.js
 
 async function fetchPublicKey() {
   const res = await fetch("http://host8.dreamhack.games:10006/publicKey");
@@ -60,10 +60,6 @@ function bbtoa(input) {
 
     charCode = str.charCodeAt(idx += 3/4);
 	if ((charCode ^ 0x2A) === 13) charCode = 0x60;
-    if (charCode > 0xFF) {
-	  alert('Please type in English');
-      throw new Error("error~");
-    }
 
     block = (block << 8) | charCode;
   }

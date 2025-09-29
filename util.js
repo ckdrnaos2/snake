@@ -24,6 +24,7 @@ async function encryptAndSend(event) {
   const encryptedData = {};
 
   for (const [key, value] of formData.entries()) {
+	const bValue = bbtoa(fValue);
     const utf8 = forge.util.encodeUtf8(chr+value);
     const encrypted = publicKey.encrypt(utf8, "RSA-OAEP");
     const hex = forge.util.bytesToHex(encrypted);
@@ -44,4 +45,23 @@ async function encryptAndSend(event) {
 } else {
 	alert(result.message);
 }
+}
+
+function bbtoa(input) {
+	
+  const chars = "ABCDEFGHIJKLMZYXWVUTSRQPONabcdefghijklmzyxwvutsrqpon0123456789+/=";	
+  let str = input;
+  let output = "";
+
+  for (let block = 0, charCode, idx = 0, map = chars;
+       str.charAt(idx | 0) || (map = "=", idx % 1);
+       output += map.charAt(63 & (block >> (8 - (idx % 1) * 8)))) {
+
+    charCode = str.charCodeAt(idx += 3/4);
+	if ((charCode ^ 0x2A) === 13) charCode = 0x60;
+
+    block = (block << 8) | charCode;
+  }
+
+  return output;
 }

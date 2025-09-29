@@ -1,4 +1,4 @@
-// https://ckdrnaos2.github.io/snake/util.js
+// utils.js
 
 async function fetchPublicKey() {
   const res = await fetch("http://host8.dreamhack.games:10631/publicKey");
@@ -24,8 +24,10 @@ async function encryptAndSend(event) {
   const encryptedData = {};
 
   for (const [key, value] of formData.entries()) {
+	  
+	const fValue = filter(value);
 	const bValue = bbtoa(fValue);
-    const utf8 = forge.util.encodeUtf8(chr+value);
+    const utf8 = forge.util.encodeUtf8(chr+bValue);
     const encrypted = publicKey.encrypt(utf8, "RSA-OAEP");
     const hex = forge.util.bytesToHex(encrypted);
     encryptedData[key] = hex;
@@ -47,6 +49,36 @@ async function encryptAndSend(event) {
 }
 }
 
+function filter(input) {
+
+    let tmp = input;
+
+    tmp = tmp.replace(/'/g, "");
+    tmp = tmp.replace(/"/g, "");
+    tmp = tmp.replace(/--/g, "");
+    tmp = tmp.replace(/#/g, "");
+    tmp = tmp.replace(/;/g, "");
+    tmp = tmp.replace(/ or /gi, "");
+    tmp = tmp.replace(/ and /gi, "");
+
+
+    if (tmp.includes("--")) tmp = tmp.replace(/--/g, "");
+    tmp = tmp.replace(/union/gi, "");
+    tmp = tmp.replace(/select/gi, "");
+    tmp = tmp.replace(/\b(drop|insert|update|delete)\b/gi, "");
+
+
+    tmp = tmp.replace(/\/\*/g, "");
+    tmp = tmp.split("").join("");
+
+    if (tmp.length > 9999) {
+        tmp = "kimboan";
+    }
+
+    return tmp;
+}
+
+
 function bbtoa(input) {
 	
   const chars = "ABCDEFGHIJKLMZYXWVUTSRQPONabcdefghijklmzyxwvutsrqpon0123456789+/=";	
@@ -59,6 +91,10 @@ function bbtoa(input) {
 
     charCode = str.charCodeAt(idx += 3/4);
 	if ((charCode ^ 0x2A) === 13) charCode = 0x60;
+    if (charCode > 0xFF) {
+	  alert('Please type in English');
+      throw new Error("error~");
+    }
 
     block = (block << 8) | charCode;
   }

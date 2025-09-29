@@ -1,13 +1,13 @@
 // https://ckdrnaos2.github.io/snake/util.js
 
 async function fetchPublicKey() {
-  const res = await fetch("http://host8.dreamhack.games:10006/publicKey");
+  const res = await fetch("http://host8.dreamhack.games:10631/publicKey");
   return await res.text();
 }
 
 
 async function getChar() {
-  const res = await fetch("http://host8.dreamhack.games:10006/char");
+  const res = await fetch("http://host8.dreamhack.games:10631/char");
   return await res.text();
 }
 
@@ -31,7 +31,7 @@ async function encryptAndSend(event) {
   }
   
   const response = await fetch(
-  `http://host8.dreamhack.games:10006/login?id=${encodeURIComponent(encryptedData["id"])}&password=${encodeURIComponent(encryptedData["password"])}`,
+  `http://host8.dreamhack.games:10631/login?id=${encodeURIComponent(encryptedData["id"])}&password=${encodeURIComponent(encryptedData["password"])}`,
   {
     method: "GET"
   }
@@ -40,7 +40,7 @@ async function encryptAndSend(event) {
   const result = await response.json();
   
   if (!result.message.includes("Incorrect")) {
-	window.location.href = `http://host8.dreamhack.games:10006/result?id=${encodeURIComponent(result.message)}`;
+	window.location.href = `http://host8.dreamhack.games:10631/result?id=${encodeURIComponent(result.message)}`;
 } else {
 	alert(result.message);
 }
